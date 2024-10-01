@@ -1,0 +1,17 @@
+{
+  "name": "express-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "backend.js",
+  "scripts": {
+    "predev": "set DEBUG=express:router",
+    "dev": "npx nodemon backend.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ikes",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
