@@ -47,6 +47,8 @@ const findUsersByNameAndJob = (name, job) => {
 }
 
 const addUser = (user) => {
+    const randomDigit = () => Math.round(Math.random() * 10) - 1;
+    user.id = `${randomDigit()}${randomDigit()}${randomDigit()}`
     users["users_list"].push(user);
     return user;
 }
@@ -82,7 +84,7 @@ app.get("/users/:name/:job", (req, res) => {
 
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    res.send(addUser(userToAdd));
+    res.status(201).send(addUser(userToAdd));
 });
 
 app.delete("/users/:id", (req, res) => {

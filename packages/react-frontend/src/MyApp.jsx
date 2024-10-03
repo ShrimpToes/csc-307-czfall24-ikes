@@ -3,8 +3,17 @@ import Table from "./Table";
 import Form from "./Form";
 
 function fetchUsers() {
-    const promise = fetch("http://localhost:8000/users");
-    return promise;
+    return fetch("http://localhost:8000/users");
+}
+
+function postUser(person) {
+    return fetch("http://localhost:8000/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(person),
+    });
 }
 
 function MyApp() {
@@ -25,7 +34,10 @@ function MyApp() {
     }
 
     function updateList(person) {
-        setCharacters([...characters, person]);
+        postUser(person)
+            .then((res) => (res.status === 201) ? res.json() : res.error())
+            .then((json) => setCharacters([...characters, json]))
+            .catch((error) => console.log(error));
     }
 
     // form -> person -> characters -> Table.jsx
