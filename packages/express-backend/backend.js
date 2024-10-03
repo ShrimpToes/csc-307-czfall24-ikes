@@ -1,7 +1,11 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
 const port = 8000;
+
+app.use(cors());
+app.use(express.json());
 
 const users = {
   users_list: [
@@ -51,10 +55,12 @@ const delUser = (id) => {
     users["users_list"] = users["users_list"].filter((user) => user.id !== id);
 }
 
-app.use(express.json());
-
 app.get("/", (req, res) => {
     res.send("hello world");
+});
+
+app.get("/users", (req, res) => {
+    res.send(users);
 });
 
 app.get("/users/:id", (req, res) => {
