@@ -27,14 +27,14 @@ function MyApp() {
 
     useEffect(() => {
         fetchUsers()
-            .then((res) => res.json())
+            .then((res) => (res.status === 200) ? res.json() : Promise.reject(`HTTP error ${res.status}`))
             .then((json) => setCharacters(json["users_list"]))
             .catch((error) => console.log(error));
     }, []);
 
     function removeOneCharacter(index) {
         deleteUser(characters.at(index)["id"])
-            .then((res) => res.status === 204 ? res : res.error())
+            .then((res) => (res.status === 204) ? undefined : Promise.reject(`HTTP error ${res.status}`))
             .then(() => {
                 const updated = characters.filter((character, i) => {
                     return i !== index;
@@ -45,7 +45,7 @@ function MyApp() {
 
     function updateList(person) {
         postUser(person)
-            .then((res) => (res.status === 201) ? res.json() : res.error())
+            .then((res) => (res.status === 201) ? res.json() : Promise.reject(`HTTP error ${res.status}`))
             .then((json) => setCharacters([...characters, json]))
             .catch((error) => console.log(error));
     }
