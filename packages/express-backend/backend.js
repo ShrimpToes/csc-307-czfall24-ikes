@@ -48,6 +48,7 @@ const findUsersByNameAndJob = (name, job) => {
 
 const addUser = (user) => {
     const randomDigit = () => Math.round(Math.random() * 10) - 1;
+    // 1/1000 chance of collision :)
     user.id = `${randomDigit()}${randomDigit()}${randomDigit()}`
     users["users_list"].push(user);
     return user;
