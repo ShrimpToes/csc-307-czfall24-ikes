@@ -54,7 +54,10 @@ const addUser = (user) => {
 }
 
 const delUser = (id) => {
-    users["users_list"] = users["users_list"].filter((user) => user.id !== id);
+    const updated = users["users_list"].filter((user) => user.id !== id);
+    if (users["users_list"].length < updated.length) return false;
+    users["users_list"] = updated;
+    return true;
 }
 
 app.get("/", (req, res) => {
@@ -88,8 +91,7 @@ app.post("/users", (req, res) => {
 });
 
 app.delete("/users/:id", (req, res) => {
-    delUser(req.params["id"]);
-    res.status(200).send();
+    res.status(delUser(req.params["id"]) ? 204 : 404).send();
 });
 
 app.listen (port, () => {

@@ -16,6 +16,12 @@ function postUser(person) {
     });
 }
 
+function deleteUser(id) {
+    return fetch(`http://localhost:8000/users/${id}`, {
+        method: "DELETE"
+    });
+}
+
 function MyApp() {
     const [characters, setCharacters] = useState([]);
 
@@ -27,10 +33,14 @@ function MyApp() {
     }, []);
 
     function removeOneCharacter(index) {
-        const updated = characters.filter((character, i) => {
-            return i !== index;
-        });
-        setCharacters(updated);
+        deleteUser(characters.at(index)["id"])
+            .then((res) => res.status === 204 ? res : res.error())
+            .then(() => {
+                const updated = characters.filter((character, i) => {
+                    return i !== index;
+                });
+                setCharacters(updated);
+            }).catch((error) => console.log(error));
     }
 
     function updateList(person) {
